@@ -1,0 +1,14 @@
+Hf1 = tf(2.4,[50.5 1]);
+Hf2 = tf(8.6,[0.01*0.6 0.61 1]);
+Tsigma1 = 1; Tsigma2 = 1.2;
+Ho2 = tf(1,[2*Tsigma1^2 2*Tsigma1 0]);
+Hr2 = minreal(Ho2/Hf2);
+Ho1 = tf([4*Tsigma1 1],[8*Tsigma1^3 8*Tsigma1^2 0 0]);
+Hr1 = minreal(Ho1/Hf1/Ho2);
+Ho = tf([4*Tsigma2 1],[8*Tsigma2^3 8*Tsigma2^2 0 0]);
+Hr = minreal(Ho/Hf1/Hf2);
+figure;
+hold on;
+step(feedback(Hr1*Hf1*Ho2,1));
+step(feedback(Hr*Hf1*Hf2,1));
+hold off;
